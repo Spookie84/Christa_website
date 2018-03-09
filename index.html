@@ -1,0 +1,640 @@
+<!DOCTYPE script>
+hello
+<html>
+<head>
+	<meta content="Open source projects aggregator for Prepaid Meters's system administrators." name="description">
+	<meta content="Development, Testing, Stage, Production, Workstation JHB, Workstation DBN, Ansible2, Prepaidmeters's Essentials" name="keywords">
+	<meta content=Johan Koen"" name="author">
+	<title>PrepaidMeters IT Landscape</title><!-- Internal Stylesheets -->
+	<link href="css/theme/font.css" rel='stylesheet' type="text/css">
+	<link href="css/theme/theme.css" rel='stylesheet' type="text/css">
+	<link href="css/spritesheet/spritesheet.css" rel='stylesheet' type="text/css"><!-- External Stylesheets -->
+	<link href="css/colorbox.css" rel='stylesheet' type="text/css">
+	<link href="css/tooltipster.css" rel='stylesheet' type="text/css"><!-- External JavaScripts -->
+
+	<script src="js/jquery.min.js">
+	</script>
+	<script src="js/jquery.colorbox.js">
+	</script>
+	<script src="js/jquery.tooltipster.min.js">
+	</script><!-- External Share JS -->
+	<script src="js/addtoany.js" type="text/javascript">
+	</script><!-- Start Colorbox and Colorizing -->
+	<script>
+	       $(document).ready(function(){
+
+	           // initialize colorbox
+	           $(".ajax").colorbox();
+	           
+	           // defaults
+	           $(".notnew").addClass( "grayscale" );
+	           $("#text").addClass( "disable" );
+	           $("#icons").addClass( "enable" );
+
+	           // view toggle
+	           $( ".m_color" ).click(function() {
+	               $(".notnew").removeClass( "grayscale" );
+	               $("#icons").addClass( "enable" );
+	               $("#icons").removeClass( "disable" );
+	               
+	               $("#text").addClass( "disable" );
+	               $("#text").removeClass( "enable" );
+	           });
+	           
+	           $( ".m_gray" ).click(function() {
+	               $(".notnew").addClass( "grayscale" );
+	               $("#icons").addClass( "enable" );
+	               $("#icons").removeClass( "disable" );
+	               
+	               $("#text").addClass( "disable" );
+	               $("#text").removeClass( "enable" );
+	           });
+
+	           $( ".m_text" ).click(function() {
+	               $("#icons").addClass( "disable" );
+	               $("#icons").removeClass( "enable" );
+	               
+	               $("#text").addClass( "enable" );
+	               $("#text").removeClass( "disable" );
+	           });
+	           
+	           // search
+	           $("#search").keyup(function(){
+	               var filter = $(this).val(), count = 0;
+	        
+	               $("i").each(function(){
+	                   if ($(this).attr( "comment" ).search(new RegExp(filter, "i")) < 0) {
+	                       $(this).fadeOut();
+	                   } else {
+	                       $(this).show();
+	                   }
+	               });
+	           });
+
+	           // visit trackback
+	           $('#category a').click(function() {
+	               var proj_id = $(this).attr('attr');
+	               $.post("visit.php", { id: proj_id },
+	               function(data, status){
+	               });
+	           });
+
+	           // menu
+	           var i = 0;    
+	           $('#burger').click(function() { 
+	               if (i == 0){        
+	                   $('.h_menu').fadeIn(); 
+	                   i++; 
+	               } else { 
+	                   $('.h_menu').fadeOut(); 
+	                   i = 0; 
+	               }
+	           });
+	          
+	       });
+	</script>
+</head>
+<body>
+	<!-- .start header -->
+	<div id="header">
+		<a href="/"><img src='images/theme/logo.png'></a> <img src='images/theme/separator.png'>
+		<div id="logo_text">
+			<font color="Green"> Prepaid <font color="Blue" > Meters </font></font> <i><strong>IT Landscape </strong></i> <b>for sysadmins</b>
+		</div>
+		<div id="burger"><img src='images/theme/menu.png'></div>
+		<div class="h_menu">
+			<div class="share_bar">
+				<h3>Share:</h3><!-- AddToAny BEGIN -->
+				<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+					<a class="a2a_button_facebook"></a> <a class="a2a_button_twitter"></a> <a class="a2a_button_linkedin"></a> <a class="a2a_button_hacker_news"></a> <a class="a2a_button_reddit"></a>
+				</div><!-- AddToAny END -->
+			</div>
+			<div class="search">
+				<h3>Search:</h3><input id="search" name="search" type="text">
+			</div>
+		</div>
+		<div class="modes">
+			<div class='m_title'>
+				View:
+			</div>
+			<div class='m_gray m_default'></div>
+			<div class='m_color m_default'></div>
+		</div>
+		<div class="version">
+			<span class="version_num">v0.1</span> | u: <span class="version_num">30 May 2017</span>
+		</div>
+	</div>
+	<div id="line"></div><!-- .end header -->
+<!-- .start content -->
+<!--
+						<div class='new'></div>
+<i class='notnew sprite sprite-nginx' id='nginx'></i>
+<i class='notnew sprite sprite-apache' id='apache'></i>
+<i class='notnew sprite sprite-haproxy' id='haproxy'></i>
+<i class='notnew sprite sprite-postfix' id='postfix'></i>
+<i class='notnew sprite sprite-mailcatcher' id='mailcatcher'></i>
+<i class='notnew sprite sprite-bind' id='bind'></i>
+<i class='notnew sprite sprite-FreeIPA' id='FreeIPA'></i>
+<i class='notnew sprite sprite-theforeman' id='theforeman'></i>
+<i class='notnew sprite sprite-kvm' id='kvm'></i>
+<i class='notnew sprite sprite-ovirt' id='ovirt'></i>
+<i class='notnew sprite sprite-rabbitmq' id='rabbitmq'></i>
+<i class='notnew sprite sprite-ActiveMQ' id='ActiveMQ'></i>
+<i class='notnew sprite sprite-Memcached' id='Memcached'></i>
+<i class='notnew sprite sprite-glusterfs' id='glusterfs'></i>
+<i class='notnew sprite sprite-Sheepdog' id='Sheepdog'></i>
+<i class='notnew sprite sprite-drbd' id='drbd'></i>
+<i class='notnew sprite sprite-mariadb' id='mariadb'></i>
+<i class='notnew sprite sprite-galera' id='galera'></i>
+<i class='notnew sprite sprite-mysql' id='mysql'></i>
+<i class='notnew sprite sprite-redis' id='redis'></i>
+<i class='notnew sprite sprite-icinga' id='icinga'></i>
+<i class='notnew sprite sprite-cabot' id='cabot'></i>
+<i class='notnew sprite sprite-Smokeping' id='Smokeping'></i>
+<i class='notnew sprite sprite-rrdtool' id='rrdtool'></i>
+<i class='notnew sprite sprite-ansible' id='ansible'></i>
+<i class='notnew sprite sprite-jenkins' id='jenkins'></i>
+<i class='sprite sprite-ProjectLibre' id='ProjectLibre'></i>
+<i class='notnew sprite sprite-OpenAudIT' id='OpenAudIT'></i>
+<i class='notnew sprite sprite-mediawiki' id='mediawiki'></i>
+<i class='notnew sprite sprite-ejabberd' id='ejabberd'></i>
+<i class='notnew sprite sprite-OpenSIPS' id='OpenSIPS'></i>
+<i class='notnew sprite sprite-Asterisk' id='Asterisk'></i>
+<i class='notnew sprite sprite-FusionPBX' id='FusionPBX'></i>
+<i class='notnew sprite sprite-atom' id='atom'></i>
+<i class='notnew sprite sprite-vim' id='vim'></i>
+<i class='notnew sprite sprite-VisualStudioCode' id='VisualStudioCode'></i>
+<i class='notnew sprite sprite-NetBeansIDE' id='NetBeansIDE'></i>
+<i class='notnew sprite sprite-chkrootkit' id='chkrootkit'></i>
+<i class='notnew sprite sprite-git' id='git'></i>
+-->
+	<div id="content">
+		<div id="icons">
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/1.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/1.png')">
+						Development
+					</div>
+					<div id='category' style='border: 1px dotted #691F00;'>
+						<div id='cat_name' style='color: #691F00;'>
+							Dev VM 00 
+						</div>
+
+<i class='notnew sprite sprite-dev-ppm-vm-00-os' id='dev-ppm-vm-00-os'></i>
+
+                                        </div>
+                                    	<div id='category' style='border: 1px dotted #691F00;'>
+						<div id='cat_name' style='color: #691F00;'>
+							Dev VM 01 
+						</div>
+					
+<i class='notnew sprite sprite-dev-ppm-vm-01-os' id='dev-ppm-vm-01-os'></i>
+
+                                        </div>
+                                        <div id='category' style='border: 1px dotted #691F00;'>
+						<div id='cat_name' style='color: #691F00;'>
+							Dev VM 02 
+						</div>
+					
+<i class='notnew sprite sprite-dev-ppm-vm-02-os' id='dev-ppm-vm-02-os'></i>
+
+                                        </div>
+                                        <div id='category' style='border: 1px dotted #691F00;'>
+						<div id='cat_name' style='color: #691F00;'>
+							Dev VM 03 
+						</div>
+					
+<i class='notnew sprite sprite-dev-ppm-vm-03-os' id='dev-ppm-vm-03-os'></i>
+
+                                        </div>
+					</div>
+				</div>
+			</div>
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/2.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/2.png')">
+						Testing	
+					</div>
+					<div id='category' style='border: 1px dotted #BA4400;'>
+						<div id='cat_name' style='color: #BA4400;'>
+							File Servers
+						</div>
+						<div id='cat_name' style='color: #BA4400;'>
+							Services	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #BA4400;'>
+						<div id='cat_name' style='color: #BA4400;'>
+							Infra Servers
+						</div>
+<i class='notnew sprite sprite-tst-ppm-infra-01-os' id='tst-ppm-infra-01-os'></i>
+<i class='notnew sprite sprite-tst-ppm-infra-02-os' id='tst-ppm-infra-02-os'></i>
+						<div id='cat_name' style='color: #BA4400;'>
+							Services	
+						</div>
+<i class='notnew sprite sprite-bind' id='bind'></i>
+<i class='notnew sprite sprite-FreeIPA' id='FreeIPA'></i>
+<i class='notnew sprite sprite-theforeman' id='theforeman'></i>
+<i class='notnew sprite sprite-kvm' id='kvm'></i>
+<i class='notnew sprite sprite-ovirt' id='ovirt'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #BA4400;'>
+						<div id='cat_name' style='color: #BA4400;'>
+							CLR Databases
+						</div>
+						<div id='cat_name' style='color: #BA4400;'>
+							Services	
+						</div>
+<i class='notnew sprite sprite-mariadb' id='mariadb'></i>
+<i class='notnew sprite sprite-galera' id='galera'></i>
+<i class='notnew sprite sprite-mysql' id='mysql'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #BA4400;'>
+						<div id='cat_name' style='color: #BA4400;'>
+							HTTP Servers
+						</div>
+<i class='notnew sprite sprite-apache' id='apache'></i>
+						<div id='cat_name' style='color: #BA4400;'>
+							Services	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #BA4400;'>
+						<div id='cat_name' style='color: #BA4400;'>
+							HA Loadbalancers
+						</div>
+						<div id='cat_name' style='color: #BA4400;'>
+							Services	
+						</div>
+					</div>
+                                        <div id='category' style='border: 1px dotted #BA4400;'>
+                                                <div id='cat_name' style='color: #BA4400;'>
+                                                        STS Servers
+                                                </div>
+						<div id='cat_name' style='color: #BA4400;'>
+							Services	
+						</div>
+                                        </div>
+                                        <div id='category' style='border: 1px dotted #BA4400;'>
+                                                <div id='cat_name' style='color: #BA4400;'>
+                                                        Mail Servers
+                                                </div>
+						<div id='cat_name' style='color: #BA4400;'>
+							Services	
+						</div>
+                                        </div>
+				</div>
+			</div>
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/3.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/3.png')">
+						Stage
+					</div>
+					<div id='category' style='border: 1px dotted #D4B100;'>
+						<div id='cat_name' style='color: #D4B100'>
+							File		
+						</div>
+<i class='notnew sprite sprite-stg-ppm-infra-01-os' id='stg-ppm-infra-01-os'></i>
+<i class='notnew sprite sprite-stg-ppm-infra-02-os' id='stg-ppm-infra-02-os'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #D4B100;'>
+						<div id='cat_name' style='color: #D4B100;'>
+							Infra Servers
+						</div>
+						<div id='cat_name' style='color: #D4B100;'>
+							Services
+						</div>
+<i class='notnew sprite sprite-bind' id='bind'></i>
+<i class='notnew sprite sprite-FreeIPA' id='FreeIPA'></i>
+<i class='notnew sprite sprite-theforeman' id='theforeman'></i>
+<i class='notnew sprite sprite-kvm' id='kvm'></i>
+<i class='notnew sprite sprite-ovirt' id='ovirt'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #D4B100;'>
+						<div id='cat_name' style='color: #D4B100;'>
+							CLR Databases		
+						</div>
+						<div id='cat_name' style='color: #D4B100;'>
+							Services		
+						</div>
+<i class='notnew sprite sprite-mariadb' id='mariadb'></i>
+<i class='notnew sprite sprite-galera' id='galera'></i>
+<i class='notnew sprite sprite-mysql' id='mysql'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #D4B100;'>
+						<div id='cat_name' style='color: #D4B100;'>
+							HTTP		
+						</div>
+<i class='notnew sprite sprite-apache' id='apache'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #D4B100;'>
+						<div id='cat_name' style='color: #D4B100;'>
+							HA		
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #D4B100;'>
+						<div id='cat_name' style='color: #D4B100;'>
+							STS		
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #D4B100;'>
+						<div id='cat_name' style='color: #D4B100;'>
+							Mail		
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/4.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/4.png')">
+						Production	
+					</div>
+					<div id='category' style='border: 1px dotted #97AB00;'>
+						<div id='cat_name' style='color: #97AB00;'>
+							FILE
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #97AB00;'>
+						<div id='cat_name' style='color: #97AB00;'>
+							INFRA
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #97AB00;'>
+						<div id='cat_name' style='color: #97AB00;'>
+							CLR Databases	
+						</div>
+						<div id='cat_name' style='color: #97AB00;'>
+							Services	
+						</div>
+<i class='notnew sprite sprite-mariadb' id='mariadb'></i>
+<i class='notnew sprite sprite-galera' id='galera'></i>
+<i class='notnew sprite sprite-mysql' id='mysql'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #97AB00;'>
+						<div id='cat_name' style='color: #97AB00;'>
+							HTTP
+						</div>
+<i class='notnew sprite sprite-apache' id='apache'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #97AB00;'>
+						<div id='cat_name' style='color: #97AB00;'>
+							HA
+						</div>
+					</div>
+                                        <div id='category' style='border: 1px dotted #97AB00;'>
+                                                <div id='cat_name' style='color: #97AB00;'>
+                                                        STS
+                                                </div>
+                                        </div>
+                                        <div id='category' style='border: 1px dotted #97AB00;'>
+                                                <div id='cat_name' style='color: #97AB00;'>
+                                                        Mail
+                                                </div>
+                                        </div>
+				</div>
+			</div>
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/5.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/5.png')">
+						Workstation JHB
+					</div>
+					<div id='category' style='border: 1px dotted #008A94;'>
+						<div id='cat_name' style='color: #008A94;'>
+							wks-jhb-lin-00
+						</div>
+						<div class='new'></div>
+<i class='notnew sprite sprite-osubuntu-wks-jhb-lin-00' id='osubuntu-wks-jhb-lin-00'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #008A94;'>
+						<div id='cat_name' style='color: #008A94;'>
+							wks-jhb-lin-01
+						</div>
+						<div class='new'></div>
+<i class='notnew sprite sprite-osubuntu-wks-jhb-lin-01' id='osubuntu-wks-jhb-lin-01'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #008A94;'>
+						<div id='cat_name' style='color: #008A94;'>
+							wks-jhb-lin-02
+						</div>
+						<div class='new'></div>
+<i class='notnew sprite sprite-osubuntu-wks-jhb-lin-02' id='osubuntu-wks-jhb-lin-02'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #008A94;'>
+						<div id='cat_name' style='color: #008A94;'>
+							wks-jhb-lin-03
+						</div>
+						<div class='new'></div>
+<i class='notnew sprite sprite-osubuntu-wks-jhb-lin-03' id='osubuntu-wks-jhb-lin-03'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #008A94;'>
+						<div id='cat_name' style='color: #008A94;'>
+							wks-jhb-lin-04
+						</div>
+						<div class='new'></div>
+<i class='notnew sprite sprite-osubuntu-wks-jhb-lin-04' id='osubuntu-wks-jhb-lin-04'></i>
+					</div>
+				</div>
+			</div>
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/6.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/6.png')">
+						Workstation DBN
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-00	
+						</div>
+						<div class='new'></div>
+<i class='notnew sprite sprite-osubuntu-wks-dbn-lin-00' id='osubuntu-wks-dbn-lin-00'></i>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-01	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-02	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-03	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-04	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-05	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-06	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-07	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-08	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #004169;'>
+						<div id='cat_name' style='color: #004169;'>
+							wks-dbn-lin-09	
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/7.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/7.png')">
+						GitHub	
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							ansible2	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							generic
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							crescendo
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							enbayaini	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							meterializecss	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							erp	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							enbayasts
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							aurora	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							docbook	
+						</div>
+					</div>
+					<div id='category' style='border: 1px dotted #39008F;'>
+						<div id='cat_name' style='color: #39008F;'>
+							devdocs
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id='parent_cat'>
+				<div id='wrapper' style="background-image: url('images/theme/category_background/8.png'); background-repeat: repeat-y; background-position: top center;">
+					<div id='parent_cat_name' style="background: url('images/theme/category/8.png')">
+						Essentials
+					</div>
+					<div id='category' style='border: 1px dotted #8A006E;'>
+						<div id='cat_name' style='color: #8A006E;'>
+							Editors
+						</div>
+						<div class='new'></div>
+					</div>
+					<div id='category' style='border: 1px dotted #8A006E;'>
+						<div id='cat_name' style='color: #8A006E;'>
+							Repositories
+						</div>
+						<div class='new'></div>
+					</div>
+					<div id='category' style='border: 1px dotted #8A006E;'>
+						<div id='cat_name' style='color: #8A006E;'>
+							Security
+						</div>
+						<div class='new'></div>
+					</div>
+					<div id='category' style='border: 1px dotted #8A006E;'>
+						<div id='cat_name' style='color: #8A006E;'>
+							Version control
+						</div>
+						<div class='new'></div>
+					</div>
+					<div id='category' style='border: 1px dotted #8A006E;'>
+						<div id='cat_name' style='color: #8A006E;'>
+							Packaging
+						</div>
+						<div class='new'></div>
+					</div>
+					<div id='category' style='border: 1px dotted #8A006E;'>
+						<div id='cat_name' style='color: #8A006E;'>
+							Troubleshooting
+						</div>
+						<div class='new'></div>
+					</div>
+					<div id='category' style='border: 1px dotted #8A006E;'>
+						<div id='cat_name' style='color: #8A006E;'>
+							Books
+						</div>
+<!--
+<a href='http://www.admin.com/' target='_blank'><i class='notnew sprite sprite-unixandlinuxsystemadministrationhandbook' id='unixandlinuxsystemadministrationhandbook'></i></a>
+<a href='http://linuxcommand.org/tlcl.php' target='_blank'><i class='notnew sprite sprite-thelinuxcommandline' id='thelinuxcommandline'></i></a>
+<a href='https://www.cybrary.it/' target='_blank'><i class='notnew sprite sprite-Cybrary' id='Cybrary'></i></a>
+<a href='https://debian-handbook.info/get/now/' target='_blank'><i class='notnew sprite sprite-DebianAdministratorHandBook' id='DebianAdministratorHandBook'></i></a>
+<a href='http://everythingsysadmin.com/books.html' target='_blank'><i class='notnew sprite sprite-thepracticeofsystemandnetworkadministration' id='thepracticeofsystemandnetworkadministration'></i></a>
+<a href='http://www.itpi.org/the-visible-ops-handbook-review.html' target='_blank'><i class='notnew sprite sprite-thevisibleopshandbookimplementingitilinpracticalandauditablesteps' id='thevisibleopshandbookimplementingitilinpracticalandauditablesteps'></i></a>
+<a href='http://itrevolution.com/books/phoenix-project-devops-book/' target='_blank'><i class='notnew sprite sprite-thephoenixprojectanovelaboutitdevopsandhelpingyourbusinesswin' id='thephoenixprojectanovelaboutitdevopsandhelpingyourbusinesswin'></i></a>
+<a href='http://www.asteriskdocs.org/' target='_blank'><i class='notnew sprite sprite-AsteriskTheDefinitiveGuide' id='AsteriskTheDefinitiveGuide'></i></a>
+<a href='https://debian-handbook.info/browse/fr-FR/stable/' target='_blank'><i class='notnew sprite sprite-FRLecahierdeladministrateurDebian' id='FRLecahierdeladministrateurDebian'></i></a>
+-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+$(document).ready(function() {
+$('#osubuntu').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>OSUbuntu<\/strong><br />Ubuntu OS Desktop.<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-jhb-lin-00').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation JHB Linux Ubutnu 00 <\/strong><br /> IP 192.168.1.40 MAC 44:39:C4:50:7E:0B User Boss Arch 64 Type Desktop .<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-jhb-lin-38').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation JHB Linux Ubutnu 38 <\/strong><br /> IP address 192.168.1.78 MAC 3C:A8:2A:A9:86:FB Johan Koen arch 64 Type Laptop .<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-jhb-lin-01').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation JHB Linux Ubutnu 01<\/strong><br />Ubuntu OS Desktop for wks-jhb-lin-01.<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-jhb-lin-02').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation JHB Linux Ubutnu 02<\/strong><br />Ubuntu OS Desktop for wks-jhb-lin-02.<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-jhb-lin-03').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation JHB Linux Ubutnu 03<\/strong><br />Ubuntu OS Desktop for wks-jhb-lin-03.<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-jhb-lin-04').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation JHB Linux Ubutnu 04<\/strong><br />Ubuntu OS Desktop for wks-jhb-lin-04.<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-jhb-lin-05').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation JHB Linux Ubutnu 05<\/strong><br />Ubuntu OS Desktop for wks-jhb-lin-05.<\/strong><\/td><\/tr><\/table>')});
+$('#osubuntu-wks-dbn-lin-00').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Workstation DBN Linux Ubutnu 00<\/strong><br />Ubuntu OS Desktop for wks-dbn-lin-00.<\/strong><\/td><\/tr><\/table>')});
+$('#tst-ppm-infra-01-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Test Infra 01<\/strong><br />tst-ppm-infra-01 <\/strong><\/td><\/tr><\/table>')});
+$('#tst-ppm-infra-02-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Test Infra 02<\/strong><br />tst-ppm-infra-02 <\/strong><\/td><\/tr><\/table>')});
+$('#stg-ppm-infra-01-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Stage Infra 01<\/strong><br />stg-ppm-infra-01 <\/strong><\/td><\/tr><\/table>')});
+$('#stg-ppm-infra-02-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Stage Infra 02<\/strong><br />stg-ppm-infra-02 <\/strong><\/td><\/tr><\/table>')});
+$('#dev-ppm-vm-00-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Dev VM 00<\/strong><br />dev-ppm-vm-00 More information here<\/strong><\/td><\/tr><\/table>')});
+$('#dev-ppm-vm-01-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Dev VM 01<\/strong><br />dev-ppm-vm-01 More information here<\/strong><\/td><\/tr><\/table>')});
+$('#dev-ppm-vm-02-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Dev VM 02<\/strong><br />dev-ppm-vm-02 More information here<\/strong><\/td><\/tr><\/table>')});
+$('#dev-ppm-vm-03-os').tooltipster({content: $('<table><tr><td><img src="images/software/osubuntu.png" align="left"/><\/td><td><strong>Dev VM 03<\/strong><br />dev-ppm-vm-03 More information here<\/strong><\/td><\/tr><\/table>')});
+
+		  });
+		</script>
+	</div><!-- .end content -->
+	<div id="footer">
+		Johan Koen @ 2017 - <a href="http://192.168.122.144">Johan Koen</a>
+	</div>
+</body>
+</html>
